@@ -22,7 +22,32 @@ cat = {"fysik": "phy",
 # TODO 15p om användaren inte anger ett område som exempelvis fysik eller kemi så skall den parametern inte skickas med till apiet och vi får då alla priser det året
 
 
+def main():
 
+
+    while True:
+        print(HELP_STRING)
+        choice = input (">" ).lower()
+        if choice == "a":
+            choice_quit()
+            print ("BYE")
+            break
+        elif choice == "h":
+            show_help_text()
+        else:
+            list_input = choice.split()
+            if len (list_input) == 1: # just the year
+                year = list_input[0]
+                category = ""
+            elif len (list_input) == 2:
+                year, subject = choice.split()
+                category = cat [subject]
+
+                search_param =  {"nobelPrizeyear": int(year) , "nobelPrizecategory": category}
+
+                result = requests.get("http://api.nobelprize.org/2.1/nobelprizes", param=search_param).json() # result = dict
+                # pprint.pprint(result)
+                nobel_prizes(result)
 
 
 def main():
